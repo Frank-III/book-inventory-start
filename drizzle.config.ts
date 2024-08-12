@@ -1,13 +1,21 @@
 import type { Config } from 'drizzle-kit';
 
+// export default {
+//   schema: "./src/api/schema.ts",
+//   out: "./drizzle/migrations/",
+// 	dialect: "sqlite",
+// 	driver: "turso",
+// 	dbCredentials: {
+//     url: process.env.DATABASE_URL!,
+//     authToken: process.env.DATABASE_AUTH_TOKEN,
+// 	},
+// } satisfies Config;
+
 export default {
   schema: "./src/api/schema.ts",
   out: "./drizzle/migrations/",
 	dialect: "sqlite",
-	driver: "d1-http",
-	dbCredentials: {
-    accountId: process.env.CLOUDFLARE_ACCOUNT_ID!,
-    databaseId: process.env.CLOUDFLARE_DATABASE_ID!,
-    token: process.env.CLOUDFLARE_D1_TOKEN!,
-	},
+  dbCredentials: {
+    url: "./drizzle/sqlite.db",
+  }
 } satisfies Config;

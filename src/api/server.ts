@@ -1,6 +1,7 @@
 import { eq, ilike, or, and, sql, desc, count } from "drizzle-orm";
 import { db } from "./db";
 import { books } from "./schema";
+import { like } from "drizzle-orm";
 
 const ITEMS_PER_PAGE = 30;
 
@@ -25,9 +26,9 @@ export async function fetchBooksWithPagination(searchParams: {
       : searchParams.author.map((author) => decodeURIComponent(author.trim()));
 
   let whereClause = or(
-    ilike(books.isbn, `%${query}%`),
-    ilike(books.title, `%${query}%`),
-    ilike(books.publisher, `%${query}%`),
+    like(books.isbn, `%${query}%`),
+    like(books.title, `%${query}%`),
+    like(books.publisher, `%${query}%`),
     sql`${books.year}::text ILIKE ${`%${query}%`}`,
   );
 
