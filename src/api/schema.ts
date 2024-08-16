@@ -2,7 +2,6 @@ import { sql } from "drizzle-orm/sql";
 import { integer, text, sqliteTable, index } from "drizzle-orm/sqlite-core";
 import { createId } from '@paralleldrive/cuid2';
 
-
 export const books = sqliteTable(
   'books',
   {

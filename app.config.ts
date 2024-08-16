@@ -3,16 +3,16 @@ export default defineConfig({
   vite: {
     ssr: { external: ["drizzle-orm"] },
     resolve: {
-      'alias': {
-        '~/': "./src/*",
-        '@/': "./drizzle/*"
-      }
-    }
+      alias: {
+        "~/": "./src/*",
+        "@/": "./drizzle/*",
+      },
+    },
   },
   server: {
-    preset: "cloudflare_module",
-    rollupConfig: {
-      external: ["__STATIC_CONTENT_MANIFEST", "node:async_hooks"],
-    },
-  }
+    // preset: "cloudflare_module",
+    // rollupConfig: {
+    //   external: ["__STATIC_CONTENT_MANIFEST", "node:async_hooks"],
+    // },
+  },
 });

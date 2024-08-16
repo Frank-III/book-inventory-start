@@ -12,10 +12,8 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>Book Inventory</Title>
-          <a href="/">Index</a>
-          <a href="/about">About</a>
           <Suspense>{props.children}</Suspense>
-          <Toaster closeButton/>
+          <Toaster closeButton />
         </MetaProvider>
       )}
     >

@@ -1,35 +1,18 @@
-import type { ClassValue } from "clsx"
-import { clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-import { Accessor, createEffect, createSignal, onCleanup } from 'solid-js';
+import type { ClassValue } from "clsx";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { Accessor, createEffect, createSignal, onCleanup } from "solid-js";
+import { leading, debounce } from "@solid-primitives/scheduled";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function useDebounceCallback<T extends (...args: any[]) => void>(
   callback: T,
-  delay: number
-): T {
-  const [timeoutId, setTimeoutId] = createSignal<number>();
-
-  const debouncedCallback = ((...args: Parameters<T>) => {
-    if (timeoutId()) {
-      clearTimeout(timeoutId());
-    }
-
-    const newTimeoutId = setTimeout(() => {
-      callback(...args);
-    }, delay);
-
-    setTimeoutId(newTimeoutId as unknown as number);
-  }) as T;
-
-  onCleanup(() => {
-    if (timeoutId()) {
-      clearTimeout(timeoutId());
-    }
-  });
+  delay: number,
+) {
+  const debouncedCallback = debounce(callback, delay);
 
   return debouncedCallback;
 }
@@ -49,4 +32,3 @@ export function useDebounce<T>(value: Accessor<T>, delay: number): () => T {
 
   return debouncedValue;
 }
-

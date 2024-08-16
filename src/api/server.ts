@@ -1,3 +1,4 @@
+"use server";
 import { eq, ilike, or, and, sql, desc, count } from "drizzle-orm";
 import { db } from "./db";
 import { books } from "./schema";
@@ -10,6 +11,7 @@ export async function fetchBooksWithPagination(searchParams: {
   author?: string | string[];
   page?: string;
 }) {
+  console.log(searchParams);
   let query = searchParams?.q || "";
   let currentPage = Number(searchParams?.page) || 1;
   if (currentPage < 1) {
@@ -29,12 +31,14 @@ export async function fetchBooksWithPagination(searchParams: {
     like(books.isbn, `%${query}%`),
     like(books.title, `%${query}%`),
     like(books.publisher, `%${query}%`),
-    sql`${books.year}::text ILIKE ${`%${query}%`}`,
+    // sql`(${books.year} || '' LIKE ${`%${query}%`}`,
+    sql`cast("year" as text) LIKE ${`%${query}%`}`,
+    // sql`CAST("year" AS text) LIKE ${`%${query}%`}`,
   );
 
   if (selectedAuthors.length > 0) {
     let authorConditions = selectedAuthors.map((author) =>
-      ilike(books.author, `%${author}%`),
+      like(books.author, `%${author}%`),
     );
     whereClause = and(whereClause, or(...authorConditions));
   }
